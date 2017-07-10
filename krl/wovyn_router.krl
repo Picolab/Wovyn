@@ -1,6 +1,6 @@
 ruleset wovyn_router {
   meta {
-    shares __testing, lastHeartbeat, lastHumidity, lastTemperature, lastPressure
+    shares __testing, lastHeartbeat, lastHumidity, lastTemperature, lastPressure, reading, battery
   }
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
@@ -35,6 +35,21 @@ ruleset wovyn_router {
       ent:lastPressure
     }
     
+    reading = function(path) {
+      steps = path.split(re#/#);
+      mments = ent:lastHeartbeat.genericThing.data{steps[0]};
+      mment = mments.filter(function(v){v.name == steps[1]})[0];
+      ans = steps[1] + ": " + mment{steps[2]} + " " + mment.units;
+      device = ent:lastHeartbeat.property.name;
+      {"text":ans,"username":device}
+    }
+
+    battery = function() {
+      pct = ent:lastHeartbeat.genericThing.healthPercent;
+      vlt = ent:lastHeartbeat.specificThing.battery.currentVoltage;
+      device = ent:lastHeartbeat.property.name;
+      {"text":"battery: " + pct + "% " + vlt + "v","username":device}
+    }
   }
 
   // mostly for debugging; see all data from last heartbeat
