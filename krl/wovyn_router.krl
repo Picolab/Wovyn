@@ -1,6 +1,7 @@
 ruleset wovyn_router {
   meta {
-    shares __testing, lastHeartbeat, lastHumidity, lastTemperature, lastPressure, reading, battery
+    shares __testing, lastHeartbeat, lastHumidity, lastTemperature, lastPressure,
+           reading, battery
   }
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
@@ -48,7 +49,8 @@ ruleset wovyn_router {
       pct = ent:lastHeartbeat.genericThing.healthPercent;
       vlt = ent:lastHeartbeat.specificThing.battery.currentVoltage;
       device = ent:lastHeartbeat.property.name;
-      {"text":"battery: " + pct + "% " + vlt + "v","username":device}
+      ans = "battery: " + pct + "% " + vlt + "v";
+      {"text":ans + " (as of " + ent:lastTimestamp + ")","username":device}
     }
   }
 
