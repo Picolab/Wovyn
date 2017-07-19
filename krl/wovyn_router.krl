@@ -79,12 +79,13 @@ ruleset wovyn_router {
     if (sensor_data{"healthPercent"}) < healthy_battery_level then noop()
     fired {
       "Battery is low".klog("");
-      raise wovyn event "battery_level_low"
-        with sensor_id = sensor_id
-	     properties = sensor_properties
-	     health_percent = sensor_data{"healthPercent"}
-             current_voltage = current_voltage
-	     timestamp = time:now()
+      raise wovyn event "battery_level_low" attributes
+        {"sensor_id": sensor_id,
+	 "properties": sensor_properties,
+	 "health_percent": sensor_data{"healthPercent"},
+         "current_voltage": current_voltage,
+	 "timestamp": time:now()
+        }
     } else {
       "Battery is fine".klog("")    
     }
