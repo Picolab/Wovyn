@@ -1,7 +1,7 @@
 ruleset wovyn_forwarder {
   rule forward_quad_heartbeat {
     select when wovyn heartbeat
-      where propery{"name"} == "Wovyn_0EC86F"
+      where property{"name"} == "Wovyn_0EC86F"
     pre {
       sensor_data = event:attrs()
     }
@@ -13,7 +13,7 @@ ruleset wovyn_forwarder {
   }
   rule forward_co2_heartbeat {
     select when wovyn heartbeat
-      where propery{"name"} == "Wovyn_2BD53F"
+      where property{"name"} == "Wovyn_2BD53F"
     pre {
       sensor_data = event:attrs()
     }
