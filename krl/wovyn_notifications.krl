@@ -17,13 +17,14 @@ ruleset wovyn_notifications {
       today = timestamp.substr(0,10)
       already_notified = ent:battery_level_low_notify_date == today
     }
-    if not already_notified then
-      http:post("https://hooks.slack.com/services/keys")
+    if not already_notified then every {
+      http:post("https://hooks.slack.com/services/keys",
+        body = <<{ "channel": "#wovyn",>>
+             + << "text": "Wovyn_0EC86F (#{sensor_id})>>
+             + << battery low (#{health_percent}%, #{current_voltage}v)" }>>)
         setting(postResult)
-        with body = <<{ "channel": "#wovyn",>>
-                  + << "text": "Wovyn_0EC86F (#{sensor_id})>>
-                  + << battery low (#{health_percent}%, #{current_voltage}v)" }>>
-      send_directive("postResult") with postResult = postResult.klog("postResult")
+      send_directive("postResult", {"postResult": postResult.klog("postResult")})
+    }
     fired {
       ent:battery_level_low_notify_date := today
     }
@@ -37,12 +38,13 @@ ruleset wovyn_notifications {
       hour = timestamp.substr(0,13)
       already_notified = ent:hot_probe_notify_hour == hour
     }
-    if not already_notified then
-      http:post("https://hooks.slack.com/services/keys")
+    if not already_notified then every {
+      http:post("https://hooks.slack.com/services/keys",
+        body = <<{ "channel": "#wovyn",>>
+             + << "text": "Wovyn_0EC86F hot probe (#{temperatureF})" }>>)
         setting(postResult)
-        with body = <<{ "channel": "#wovyn",>>
-                  + << "text": "Wovyn_0EC86F hot probe (#{temperatureF})" }>>
-      send_directive("postResult") with postResult = postResult.klog("postResult")
+      send_directive("postResult", {"postResult": postResult.klog("postResult")})
+    }
     fired {
       ent:hot_probe_notify_hour := hour
     }
@@ -56,12 +58,13 @@ ruleset wovyn_notifications {
       hour = timestamp.substr(0,13)
       already_notified = ent:co2_high_notify_hour == hour
     }
-    if not already_notified then
-      http:post("https://hooks.slack.com/services/keys")
+    if not already_notified then every {
+      http:post("https://hooks.slack.com/services/keys",
+        body = <<{ "channel": "#wovyn",>>
+             + << "text": "Wovyn_2BD53F high co2 level (#{concentration} ppm)" }>>)
         setting(postResult)
-        with body = <<{ "channel": "#wovyn",>>
-                  + << "text": "Wovyn_2BD53F high co2 level (#{concentration} ppm)" }>>
-      send_directive("postResult") with postResult = postResult.klog("postResult")
+      send_directive("postResult", {"postResult": postResult.klog("postResult")})
+    }
     fired {
       ent:co2_high_notify_hour := hour
     }
