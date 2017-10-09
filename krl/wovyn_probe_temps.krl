@@ -1,6 +1,6 @@
 ruleset wovyn_probe_temps {
   meta {
-    shares __testing, temps
+    shares __testing, temps, tempsDay
   }
   global {
     __testing = { "queries": [ { "name": "__testing" },
@@ -8,6 +8,15 @@ ruleset wovyn_probe_temps {
                   "events": [ ] }
     temps = function() {
       ent:probeTemps
+    }
+    tempsDay = function(date) {
+      entryMatchesDate = function(e) {
+        time:add(e{"timestamp"},{"hours": -6}).substr(0,10)==date
+      };
+      csvEntry = function(e) {
+        e{"timestamp"}.substr(0,10)+" "+e{"timestamp"}.substr(11,8)+","+e{"temperatureF"}
+      };
+      ent:probeTemps.filter(entryMatchesDate).map(csvEntry).join(10.chr())
     }
     probe_temperature_threshold = 90
   }
