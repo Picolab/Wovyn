@@ -14,7 +14,8 @@ ruleset wovyn_probe_temps {
         time:add(e{"timestamp"},{"hours": -6}).substr(0,10)==date
       };
       csvEntry = function(e) {
-        e{"timestamp"}.substr(0,10)+" "+e{"timestamp"}.substr(11,8)+","+e{"temperatureF"}
+        mdt = time:add(e{"timestamp"},{"hours": -6});
+        time:strftime(mdt, "%F %T")+","+e{"temperatureF"}
       };
       ent:probeTemps.filter(entryMatchesDate).map(csvEntry).join(10.chr())
     }
