@@ -16,16 +16,15 @@ ruleset io.picolabs.wovynApp {
     jsx = "
           <div className={'my-pretty-chart-container'}>
             <Chart
-              chartType="ScatterChart"
+              chartType='ScatterChart'
               data={[['Age', 'Weight'], [8, 12], [4, 5.5]]}
               options={{}}
-              graph_id="ScatterChart"
-              width="100%"
-              height="400px"
+              graph_id='ScatterChart'
+              width='100%'
+              height='400px'
               legend_toggle
             />
           </div>
-
           ";
     tile = function() {
       jsx;
