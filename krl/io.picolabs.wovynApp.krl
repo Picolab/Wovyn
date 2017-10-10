@@ -38,7 +38,7 @@ ruleset io.picolabs.wovynApp {
 
   }
   // ---------- Manifold required API event calls  
-  rule discovery { select when manifold apps send_directive("app discovered...", {"app": app, "rid": meta:rid}); }
+  rule discovery { select when manifold apps send_directive("app discovered...", {"app": app, "rid": meta:rid, "tile": tile()}); }
   rule tile { select when manifold tile send_directive("retrieved tile ", {"app": tile()}); }
   // ---------- 
 
