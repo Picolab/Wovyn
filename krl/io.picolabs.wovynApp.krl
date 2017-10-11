@@ -17,7 +17,7 @@ ruleset io.picolabs.wovynApp {
           <div className={'my-pretty-chart-container'}>
             <Chart
               chartType='ScatterChart'
-              data={[['Age', 'Weight'], [8, 12], [4, 5.5]]}
+              data=\"[['Age','Weight'], [8,12], [4,5.5]]\"
               options={{}}
               graph_id='ScatterChart'
               width='100%'
