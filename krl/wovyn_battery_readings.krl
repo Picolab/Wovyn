@@ -1,13 +1,28 @@
 ruleset wovyn_battery_readings {
   meta {
-    shares __testing, readings
+    shares __testing, readings, readingsCount, readingsDay
   }
   global {
     __testing = { "queries": [ { "name": "__testing" },
-                               { "name": "readings" } ],
+                               { "name": "readings" },
+                               { "name": "readingsCount" } ],
                   "events": [ ] }
     readings = function() {
       ent:batteryReadings
+    }
+    readingsCount = function() {
+      ent:batteryReadings.length()
+    }
+    readingsDay = function(date) {
+      entryMatchesDate = function(e) {
+        e{"timestamp"}.substr(0,10) == date
+      };
+      csvEntry = function(e) {
+        time:strftime(e{"timestamp"}, "%F %T") + ","
+          + e{"currentVoltage"} + ","
+          + e{"healthPercent"}
+      };
+      ent:batteryReadings.filter(entryMatchesDate).map(csvEntry).join(10.chr())
     }
   }
 
