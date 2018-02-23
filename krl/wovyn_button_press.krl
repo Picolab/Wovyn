@@ -5,6 +5,13 @@ ruleset wovyn_button_press {
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
                   "events": [ ] }
+    // internal functions
+    sensorData = function(path) {
+     gtd = event:attr("genericThing")
+             .defaultsTo({})
+             .klog("Sensor Data: ");
+     path.isnull() => gtd | gtd{path}
+    }
   }
 
   // catch and record button presses
@@ -36,5 +43,22 @@ ruleset wovyn_button_press {
     fired {
       
     } 
+  }
+
+  // route all button events
+  rule route_readings {
+    select when wovyn quadButton
+    foreach sensorData(["data"]) setting (sensor_readings , sensor_type)
+    foreach sensor_readings setting (the_event)
+      pre {
+        event_name = (the_event{"color"} + "_" + the_event{"statusText"}).klog("Event ")
+      }
+      always {
+        raise wovyn event event_name attributes
+          {"readings":  the_event,
+           "sensor_id": event:attr("emitterGUID"),
+           "timestamp": time:now()
+          }
+      }
   }
 }
