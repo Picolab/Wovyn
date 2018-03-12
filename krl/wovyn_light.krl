@@ -16,7 +16,7 @@ ruleset wovyn_light {
       mment = mments.filter(function(v){v.name == steps[1]})[0];
       ans = steps[1] + ": " + mment{steps[2]} + " " + mment.units;
       device = ent:lastHeartbeat.property.name;
-      time = time:add(ent:lastTimestamp,{"hours": -7}).substr(0,19) + "MT";
+      time = time:add(ent:lastTimestamp,{"hours": -6}).substr(0,19) + "MT";
       {"text":ans + " (as of " + time + ")","username":device}
     }
   }
