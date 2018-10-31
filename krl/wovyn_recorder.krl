@@ -4,15 +4,14 @@ ruleset wovyn_recorder {
   }
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
-                  "events": [ { "domain": "recorder", "type": "new_id", "attrs": ["id"] } ] }
+                  "events": [ { "domain": "recorder", "type": "new_url", "attrs": ["url"] } ] }
   }
   rule set_up_url {
-    select when recorder new_id
+    select when recorder new_url
     pre {
-      id = event:attr("id")
-      url = <<https://script.google.com/macros/s/#{id}/exec>>
+      url = event:attr("url")
     }
-    if id then noop();
+    if url then noop();
     fired {
       ent:url := url
     }
