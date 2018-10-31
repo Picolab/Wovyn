@@ -1,10 +1,11 @@
 ruleset wovyn_co2_levels {
   meta {
-    shares __testing, co2_levels, co2_levelsCount, co2_levels_after
+    shares __testing, co2_levels, co2_levelsCount, co2_levels_after, co2_levelsHead
   }
   global {
     __testing = { "queries": [ { "name": "__testing" },
                                { "name": "co2_levels" },
+                               { "name": "co2_levelsHead" },
                                { "name": "co2_levelsCount" } ],
                   "events": [ ] }
     co2_levels = function() {
@@ -12,6 +13,9 @@ ruleset wovyn_co2_levels {
     }
     co2_levelsCount = function() {
       ent:co2_levels.length()
+    }
+    co2_levelsHead = function() {
+      ent:co2_levels.head()
     }
     co2_levels_after = function(timestamp) {
       ent:co2_levels.filter(function(v){v{"timestamp"} > timestamp})
