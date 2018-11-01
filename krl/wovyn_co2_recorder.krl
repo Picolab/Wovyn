@@ -1,4 +1,4 @@
-ruleset wovyn_recorder {
+ruleset wovyn_co2_recorder {
   meta {
     shares __testing
   }
