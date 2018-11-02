@@ -7,22 +7,19 @@ ruleset wovyn_co2_recorder {
                   "events": [ { "domain": "recorder", "type": "new_url", "attrs": ["url"] } ] }
   }
   rule set_up_url {
-    select when recorder new_url
-    pre {
-      url = event:attr("url")
-    }
-    if url then noop();
+    select when recorder new_url url re#^(http.*)# setting(url)
     fired {
-      ent:url := url
+      ent:url := url;
+      ent:urlInEffectSince := time:now()
     }
   }
   rule record_co2_level_to_sheet {
-    select when wovyn co2_level_recorded
+    select when wovyn co2_level_recorded where ent:url
     pre {
       ts = time:strftime(event:attr("timestamp"), "%F %T");
       data = {"timestamp": ts, "concentration": event:attr("concentration")}
     }
-    if ent:url then http:post(ent:url,qs=data) setting(response)
+    http:post(ent:url,qs=data) setting(response)
     fired {
       ent:lastData := data;
       ent:lastResponse := response;
