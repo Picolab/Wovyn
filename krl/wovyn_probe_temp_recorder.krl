@@ -5,6 +5,9 @@ ruleset wovyn_probe_temp_recorder {
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
                   "events": [ { "domain": "recorder", "type": "new_url", "attrs": ["url"] } ] }
+    makeMT = function(ts){
+      time:add(ts,{"hours": -7})
+    }
   }
   rule set_up_url {
     select when recorder new_url url re#^(http.*)# setting(url)
@@ -18,7 +21,7 @@ ruleset wovyn_probe_temp_recorder {
     pre {
       temperatureData = event:attr("readings")
       temperatureF = temperatureData[0]{"temperatureF"}
-      timestamp = event:attr("timestamp");
+      timestamp = makeMT(event:attr("timestamp"));
       data = {"timestamp": time:strftime(timestamp, "%F %T"),
               "temperature": temperatureF,
               "tabName": timestamp.substr(0,10)}
