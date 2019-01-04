@@ -20,7 +20,7 @@ ruleset wovyn_probe_temp_recorder {
       temperatureF = temperatureData[0]{"temperatureF"}
       timestamp = event:attr("timestamp");
       data = {"timestamp": time:strftime(timestamp, "%F %T"),
-              "temperature": event:attr("temperatureF"),
+              "temperature": temperatureF,
               "tabName": timestamp.substr(0,10)}
     }
     http:post(ent:url,qs=data) setting(response)
