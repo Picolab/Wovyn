@@ -4,10 +4,10 @@ ruleset wovyn_co2_recorder {
   }
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
-                  "events": [ { "domain": "recorder", "type": "new_url", "attrs": ["url"] } ] }
+                  "events": [ { "domain": "co2_recorder", "type": "new_url", "attrs": ["url"] } ] }
   }
   rule set_up_url {
-    select when recorder new_url url re#^(http.*)# setting(url)
+    select when co2_recorder new_url url re#^(http.*)# setting(url)
     fired {
       ent:url := url;
       ent:urlInEffectSince := time:now()

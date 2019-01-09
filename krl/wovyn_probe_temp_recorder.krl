@@ -4,13 +4,13 @@ ruleset wovyn_probe_temp_recorder {
   }
   global {
     __testing = { "queries": [ { "name": "__testing" } ],
-                  "events": [ { "domain": "recorder", "type": "new_url", "attrs": ["url"] } ] }
+                  "events": [ { "domain": "probe_temp_recorder", "type": "new_url", "attrs": ["url"] } ] }
     makeMT = function(ts){
       time:add(ts,{"hours": -7})
     }
   }
   rule set_up_url {
-    select when recorder new_url url re#^(http.*)# setting(url)
+    select when probe_temp_recorder new_url url re#^(http.*)# setting(url)
     fired {
       ent:url := url;
       ent:urlInEffectSince := time:now()
