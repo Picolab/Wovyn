@@ -10,7 +10,11 @@ ruleset wovyn_probe_temp_recorder {
         { "domain": "probe_temp_recorder", "type": "new_month_url", "attrs": [ "month", "url" ] }
       ] }
     makeMT = function(ts){
-      time:add(ts,{"hours": -7})
+      MST = time:add(ts,{"hours": -7});
+//    MDT = time:add(ts,{"hours": -6});
+//    MDT > "2019-11-03T02" => MST |
+//    MST > "2019-03-10T02" => MDT |
+                               MST
     }
   }
   rule set_up_url {
