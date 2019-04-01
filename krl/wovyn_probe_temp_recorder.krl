@@ -41,7 +41,7 @@ ruleset wovyn_probe_temp_recorder {
     }
     if new_month && new_url then noop()
     fired {
-      ent:url := url;
+      ent:url := new_url;
       ent:urlInEffectSince := time:now()
     }
   }
