@@ -43,7 +43,9 @@ ruleset wovyn_probe_temp_recorder {
     fired {
       ent:url := new_url;
       ent:urlInEffectSince := time:now();
-      ent:latestMonth := this_month
+      ent:latestMonth := this_month;
+      raise probe_temp_recorder event "month_rolled_over"
+        attributes { "new_month": this_month, "new_url": new_url }
     }
   }
   rule record_probe_temp_to_sheet {
@@ -60,7 +62,7 @@ ruleset wovyn_probe_temp_recorder {
     fired {
       ent:lastData := data;
       ent:lastResponse := response;
-      raise wovyn event "probe_temp_recorded_to_sheet" attributes event:attrs()
+      raise probe_temp_recorder event "recorded_to_sheet" attributes data
     }
   }
 }
