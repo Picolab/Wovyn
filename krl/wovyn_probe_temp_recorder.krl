@@ -42,7 +42,8 @@ ruleset wovyn_probe_temp_recorder {
     if new_month && new_url then noop()
     fired {
       ent:url := new_url;
-      ent:urlInEffectSince := time:now()
+      ent:urlInEffectSince := time:now();
+      ent:latestMonth := this_month
     }
   }
   rule record_probe_temp_to_sheet {
@@ -59,7 +60,6 @@ ruleset wovyn_probe_temp_recorder {
     fired {
       ent:lastData := data;
       ent:lastResponse := response;
-      ent:latestMonth := timestamp.substr(0,7);
       raise wovyn event "probe_temp_recorded_to_sheet" attributes event:attrs()
     }
   }
