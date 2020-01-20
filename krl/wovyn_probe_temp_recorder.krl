@@ -12,8 +12,8 @@ ruleset wovyn_probe_temp_recorder {
     makeMT = function(ts){
       MST = time:add(ts,{"hours": -7});
       MDT = time:add(ts,{"hours": -6});
-      MDT > "2019-11-03T02" => MST |
-      MST > "2019-03-10T02" => MDT |
+      MDT > "2020-11-01T02" => MST |
+      MST > "2020-03-08T02" => MDT |
                                MST
     }
   }
