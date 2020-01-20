@@ -1,13 +1,17 @@
 ruleset wovyn_probe_temps {
   meta {
-    shares __testing, temps, tempsDay
+    shares __testing, temps, tempsDay, tempsCount
   }
   global {
     __testing = { "queries": [ { "name": "__testing" },
-                               { "name": "temps" } ],
+                               { "name": "temps" },
+                               { "name": "tempsCount" } ],
                   "events": [ ] }
     temps = function() {
       ent:probeTemps
+    }
+    tempsCount = function() {
+      ent:probeTemps.length()
     }
     tempsDay = function(date) {
       entryMatchesDate = function(e) {
